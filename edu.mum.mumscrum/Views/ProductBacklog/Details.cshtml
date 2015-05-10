@@ -1,0 +1,116 @@
+﻿@model edu.mum.mumscrum.Models.ProductBacklog
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutProductOwner.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product Backlog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpectedEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpectedEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualEndDate)
+        </dd>
+
+        <dt>
+
+        </dt>
+
+        <dd><br/></dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserStories)
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>RB Name</th>
+                    <th>Description</th>
+                    <th>Development Status</th>
+                    <th>Testing Status</th>
+                </tr>
+                @foreach (var item in Model.UserStories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReleaseBacklog.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DevelopmentStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TestStatus)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

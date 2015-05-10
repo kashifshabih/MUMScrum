@@ -1,0 +1,91 @@
+﻿@model edu.mum.mumscrum.Models.ReleaseBacklog
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutProductOwner.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ReleaseBacklog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductBacklog.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductBacklog.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpectedEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpectedEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScrumMasterID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScrumMasterID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
