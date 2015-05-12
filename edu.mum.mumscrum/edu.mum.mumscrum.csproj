@@ -166,8 +166,10 @@
     <Compile Include="Controllers\ProductOwnerController.cs" />
     <Compile Include="Controllers\ReleaseBacklogController.cs" />
     <Compile Include="Controllers\UserStoriesController.cs" />
+    <Compile Include="DAL\IProductBacklogRepository.cs" />
     <Compile Include="DAL\MUMScrumContext.cs" />
     <Compile Include="DAL\MUMScrumInitializer.cs" />
+    <Compile Include="DAL\ProductBacklogRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

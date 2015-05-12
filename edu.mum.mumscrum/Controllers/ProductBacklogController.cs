@@ -13,12 +13,26 @@ namespace edu.mum.mumscrum.Controllers
 {
     public class ProductBacklogController : Controller
     {
-        private MUMScrumContext db = new MUMScrumContext();
+        //private MUMScrumContext db = new MUMScrumContext();
+
+        private IProductBacklogRepository productBacklogRepository;
+
+        public ProductBacklogController()
+        {
+            this.productBacklogRepository = new ProductBacklogRepository(new MUMScrumContext());
+        }
+
+        public ProductBacklogController(IProductBacklogRepository productBacklogRepository)
+        {
+            this.productBacklogRepository = productBacklogRepository;
+        }
+
 
         // GET: ProductBacklog
         public ActionResult Index()
         {
-            return View(db.ProductBacklogs.ToList());
+            //return View(db.ProductBacklogs.ToList());
+            return View(productBacklogRepository.GetProductBacklogs());
         }
 
         // GET: ProductBacklog/Details/5
@@ -28,11 +42,15 @@ namespace edu.mum.mumscrum.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+            
+            //ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+            ProductBacklog productBacklog = productBacklogRepository.GetProductBacklogByID(id);
+            
             if (productBacklog == null)
             {
                 return HttpNotFound();
             }
+            
             return View(productBacklog);
         }
 
@@ -54,8 +72,12 @@ namespace edu.mum.mumscrum.Controllers
                 productBacklog.CreatedBy = 1; // this has to be the id of the person to be logged in
                 productBacklog.CreatedDate = DateTime.Now;
                 
-                db.ProductBacklogs.Add(productBacklog);
-                db.SaveChanges();
+                //db.ProductBacklogs.Add(productBacklog);
+                //db.SaveChanges();
+
+                productBacklogRepository.InsertProductBacklog(productBacklog);
+                productBacklogRepository.Save();
+                
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +91,10 @@ namespace edu.mum.mumscrum.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+
+            //ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+            ProductBacklog productBacklog = productBacklogRepository.GetProductBacklogByID(id);
+            
             if (productBacklog == null)
             {
                 return HttpNotFound();
@@ -86,10 +111,12 @@ namespace edu.mum.mumscrum.Controllers
         {
             if (ModelState.IsValid)
             {
+                //db.Entry(productBacklog).State = EntityState.Modified;
+                //db.SaveChanges();
 
+                productBacklogRepository.UpdateProductBacklog(productBacklog);
+                productBacklogRepository.Save();
 
-                db.Entry(productBacklog).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(productBacklog);
@@ -102,7 +129,10 @@ namespace edu.mum.mumscrum.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+
+            //ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+            ProductBacklog productBacklog = productBacklogRepository.GetProductBacklogByID(id);
+                        
             if (productBacklog == null)
             {
                 return HttpNotFound();
@@ -115,9 +145,14 @@ namespace edu.mum.mumscrum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
-            db.ProductBacklogs.Remove(productBacklog);
-            db.SaveChanges();
+            //ProductBacklog productBacklog = db.ProductBacklogs.Find(id);
+            //db.ProductBacklogs.Remove(productBacklog);
+            //db.SaveChanges();
+
+            ProductBacklog productBacklog = productBacklogRepository.GetProductBacklogByID(id);
+            productBacklogRepository.DeleteProductBacklog(id);
+            productBacklogRepository.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -125,7 +160,8 @@ namespace edu.mum.mumscrum.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
+                productBacklogRepository.Dispose();
             }
             base.Dispose(disposing);
         }
