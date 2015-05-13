@@ -92,6 +92,37 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
+                <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
+                            List<edu.mum.mumscrum.ViewModels.AssignedUserStoryData> userStories = ViewBag.UserStories;
+
+                            foreach (var userStory in userStories)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox"
+                                           name="selectedUserStories"
+                                           value="@userStory.UserStoryID"
+                                           @(Html.Raw(userStory.Assigned ? "checked=\"checked\"" : "")) />
+                                    @:  @userStory.Name
+                                    @:</td>
+                            }
+                            @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>

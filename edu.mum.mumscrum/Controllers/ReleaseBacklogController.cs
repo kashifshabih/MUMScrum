@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using edu.mum.mumscrum.DAL;
 using edu.mum.mumscrum.Models;
+using edu.mum.mumscrum.ViewModels;
 
 namespace edu.mum.mumscrum.Controllers
 {
@@ -41,7 +42,34 @@ namespace edu.mum.mumscrum.Controllers
         public ActionResult Create()
         {
             ViewBag.ProductBacklogID = new SelectList(db.ProductBacklogs, "ID", "Name");
+
+            var releaseBacklog = new ReleaseBacklog();
+            releaseBacklog.UserStories = new List<UserStory>();
+
+            PopulateAssignedUserStories(releaseBacklog);
+
             return View();
+        }
+
+        private void PopulateAssignedUserStories(ReleaseBacklog releaseBacklog)
+        {
+            var allUserStories = db.UserStories;
+
+            var releaseBacklogUserStories = new HashSet<int>(releaseBacklog.UserStories.Select(u => u.ID));
+
+            var viewModel = new List<AssignedUserStoryData>();
+
+            foreach (var userStory in allUserStories)
+            {
+                viewModel.Add(new AssignedUserStoryData
+                {
+                    UserStoryID = userStory.ID,
+                    Name = userStory.Name,
+                    Assigned = releaseBacklogUserStories.Contains(userStory.ID)
+                });
+            }
+
+            ViewBag.UserStories = viewModel;
         }
 
         // POST: ReleaseBacklog/Create
@@ -49,8 +77,22 @@ namespace edu.mum.mumscrum.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog)
+        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories)
         {
+            if (selectedUserStories != null)
+            {
+                //instructor.Courses = new List<Course>();
+                releaseBacklog.UserStories = new List<UserStory>();
+                //foreach (var course in selectedCourses)
+                foreach (var userStory in selectedUserStories)
+                {
+                    //var courseToAdd = db.Courses.Find(int.Parse(course));
+                    var userStoryToAdd = db.UserStories.Find(int.Parse(userStory));
+                    //instructor.Courses.Add(courseToAdd);
+                    releaseBacklog.UserStories.Add(userStoryToAdd);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 releaseBacklog.CreatedBy = 1;
@@ -60,6 +102,9 @@ namespace edu.mum.mumscrum.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            //PopulateAssignedCourseData(instructor);
+            PopulateAssignedUserStories(releaseBacklog);
 
             ViewBag.ProductBacklogID = new SelectList(db.ProductBacklogs, "ID", "Name", releaseBacklog.ProductBacklogID);
             return View(releaseBacklog);
@@ -72,12 +117,23 @@ namespace edu.mum.mumscrum.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ReleaseBacklog releaseBacklog = db.ReleaseBacklogs.Find(id);
+            
+            //ReleaseBacklog releaseBacklog = db.ReleaseBacklogs.Find(id);
+
+            ReleaseBacklog releaseBacklog = db.ReleaseBacklogs
+                .Include(r => r.UserStories)
+                .Where(r => r.ID == id)
+                .Single();
+
+            PopulateAssignedUserStories(releaseBacklog);
+
             if (releaseBacklog == null)
             {
                 return HttpNotFound();
             }
+            
             ViewBag.ProductBacklogID = new SelectList(db.ProductBacklogs, "ID", "Name", releaseBacklog.ProductBacklogID);
+            
             return View(releaseBacklog);
         }
 
@@ -86,17 +142,60 @@ namespace edu.mum.mumscrum.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog)
+        //public ActionResult Edit([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories)
+        public ActionResult Edit(int? id, string[] selectedUserStories)
         {
+            ReleaseBacklog releaseBacklog = db.ReleaseBacklogs
+            .Include(r => r.UserStories)
+            .Where(r => r.ID == id)
+            .Single();
+            
             if (ModelState.IsValid)
             {
+                UpdateReleaseBacklogUserStories(selectedUserStories, releaseBacklog);
+
                 db.Entry(releaseBacklog).State = EntityState.Modified;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.ProductBacklogID = new SelectList(db.ProductBacklogs, "ID", "Name", releaseBacklog.ProductBacklogID);
+
+            PopulateAssignedUserStories(releaseBacklog);
             return View(releaseBacklog);
         }
+
+        private void UpdateReleaseBacklogUserStories(string[] selectedUserStories, ReleaseBacklog releaseBacklogToUpdate)
+        {
+            if (selectedUserStories == null)
+            {
+                releaseBacklogToUpdate.UserStories = new List<UserStory>();
+                return;
+            }
+
+            var selectedUserStoriesHS = new HashSet<string>(selectedUserStories);
+            var releaseBacklogUserStories = new HashSet<int>(releaseBacklogToUpdate.UserStories.Select(u => u.ID));
+            
+            foreach (var userStory in db.UserStories)
+            {
+                if (selectedUserStoriesHS.Contains(userStory.ID.ToString()))
+                {
+                    if (!releaseBacklogUserStories.Contains(userStory.ID))
+                    {
+                        releaseBacklogToUpdate.UserStories.Add(userStory);
+                    }
+                }
+                else
+                {
+                    if (releaseBacklogUserStories.Contains(userStory.ID))
+                    {
+                        releaseBacklogToUpdate.UserStories.Remove(userStory);
+                    }
+                }
+            }
+        }
+
 
         // GET: ReleaseBacklog/Delete/5
         public ActionResult Delete(int? id)
