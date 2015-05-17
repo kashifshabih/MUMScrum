@@ -161,10 +161,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomAccountController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HRAdminController.cs" />
+    <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\ProductBacklogController.cs" />
     <Compile Include="Controllers\ProductOwnerController.cs" />
     <Compile Include="Controllers\ReleaseBacklogController.cs" />
+    <Compile Include="Controllers\ScrumMasterController.cs" />
+    <Compile Include="Controllers\SprintController.cs" />
     <Compile Include="Controllers\UserStoriesController.cs" />
     <Compile Include="DAL\IProductBacklogRepository.cs" />
     <Compile Include="DAL\MUMScrumContext.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AssignedUserStoryData.cs" />
+    <Compile Include="ViewModels\UserCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -217,7 +224,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -264,6 +273,26 @@
     <Content Include="Views\UserStories\Details.cshtml" />
     <Content Include="Views\UserStories\Edit.cshtml" />
     <Content Include="Views\UserStories\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutScrumMaster.cshtml" />
+    <Content Include="Views\ScrumMaster\Index.cshtml" />
+    <Content Include="Views\Sprint\Create.cshtml" />
+    <Content Include="Views\Sprint\Delete.cshtml" />
+    <Content Include="Views\Sprint\Details.cshtml" />
+    <Content Include="Views\Sprint\Edit.cshtml" />
+    <Content Include="Views\Sprint\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageHRAdministrator.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Employee\Delete.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\HRAdmin\Index.cshtml" />
+    <Content Include="Views\Position\Create.cshtml" />
+    <Content Include="Views\Position\Delete.cshtml" />
+    <Content Include="Views\Position\Details.cshtml" />
+    <Content Include="Views\Position\Edit.cshtml" />
+    <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\CustomAccount\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

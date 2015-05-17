@@ -11,6 +11,7 @@ using edu.mum.mumscrum.Models;
 
 namespace edu.mum.mumscrum.Controllers
 {
+    [Authorize(Roles = "ProductOwner")]
     public class UserStoriesController : Controller
     {
         private MUMScrumContext db = new MUMScrumContext();

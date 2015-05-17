@@ -6,133 +6,43 @@
     <title>@ViewBag.Title - MUM Scrum</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <style>
-        #body-content {
-            padding-top: 40px;
-        }
-    </style>
+
 </head>
 <body>
-
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <button class="btn btn-navbar" data-toggle="collapse" data-target="#app-nav-top-bar">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="dashboard.html" class="brand"><i class="icon-laptop"></i> MUM Scrum Dashboard</i></a>
-                <div id="app-nav-top-bar" class="nav-collapse">
-                 
-                    <ul class="nav pull-right">
-                        <li>
-                            <a href="login.html">Logout</a>
-                        </li>
+                @Html.ActionLink("MUM Scrum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
 
-                    </ul>
-                </div>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Product Owner", "Index", "ProductOwner")</li>
+                    <li>@Html.ActionLink("Scrum Master", "Index", "ScrumMaster")</li>
+                    <li>@Html.ActionLink("Developer", "Index", "Developer")</li>
+                    <li>@Html.ActionLink("Tester", "Index", "Tester")</li>
+                    <li>@Html.ActionLink("HR Administrator", "Index", "HRAdmin")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-
-    <div id="body-container">
-        <div id="body-content">
-
-            <div class="body-nav body-nav-vertical">
-                <div class="container">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <i class="icon-dashboard icon-large"></i> Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-calendar icon-large"></i> Schedule
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-map-marker icon-large"></i> Map It
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-tasks icon-large"></i> Widgets
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-cogs icon-large"></i> Settings
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-list-alt icon-large"></i> Forms
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="icon-bar-chart icon-large"></i> Charts
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-            <section class="nav nav-page">
-                <div class="container">
-                    <div class="row">
-                        <div class="span7">
-                            <header class="page-header"></header>
-                        </div>
-                        <div class="page-nav-options">
-                            <div class="span9">
-                                <ul class="nav nav-pills">
-                                    <li>
-                                        <a href="#"><i class="icon-home icon-large"></i></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a href="~/Home/Index"><i class="icon-home"></i>Home</a>
-                                    </li>
-                                    
-                                    <li><a href="~/ProductOwner/Index">Product Owner</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="page container">
-            
-                <div class="row">
-                    @RenderBody()
-                </div>
-
-            </section>
-
-        </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MUM Scrum</p>
+        </footer>
     </div>
-
-    <div id="spinner" class="spinner" style="display:none;">
-        Loading&hellip;
-    </div>
-    <footer class="application-footer">
-        <div class="container">
-            <p>Application Footer</p>
-            <div class="disclaimer">
-                <p>This is an example disclaimer. All right reserved.</p>
-                <p>Copyright © keaplogik 2011-2012</p>
-            </div>
-        </div>
-    </footer>
-
-
-
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

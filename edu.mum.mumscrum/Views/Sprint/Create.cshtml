@@ -1,27 +1,26 @@
-﻿@model edu.mum.mumscrum.Models.ReleaseBacklog
+﻿@model edu.mum.mumscrum.Models.Sprint
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_LayoutProductOwner.cshtml";
+    Layout = "~/Views/Shared/_LayoutScrumMaster.cshtml";
 }
 
 <h2>Create</h2>
-
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ReleaseBacklog</h4>
+        <h4>Sprint</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductBacklogID, "ProductBacklogID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReleaseBacklogID, "ReleaseBacklogID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ProductBacklogID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProductBacklogID, "", new { @class = "text-danger" })
+                @Html.DropDownList("ReleaseBacklogID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ReleaseBacklogID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -81,6 +80,7 @@
             </div>
         </div>
 
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <table>
@@ -100,7 +100,7 @@
                                            name="selectedUserStories"
                                            value="@userStory.UserStoryID"
                                            @(Html.Raw(userStory.Assigned ? "checked=\"checked\"" : "")) />
-                                     @:  @userStory.Name
+                                    @:  @userStory.Name
                                     @:</td>
                             }
                             @:</tr>
@@ -112,21 +112,6 @@
 
 
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.ScrumMasterID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ScrumMasterID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ScrumMasterID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            @Html.Label("Assign Scrum Master", htmlAttributes: new { @class = "control-label col-md-2" })
-            
-            <div class="col-md-10">
-                @Html.DropDownList("ScrumMasterList", new SelectList(ViewBag.ScrumMasters, "ID", "Name"), "", htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -139,7 +124,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

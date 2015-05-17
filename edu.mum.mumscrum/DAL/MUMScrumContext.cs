@@ -25,5 +25,9 @@ namespace edu.mum.mumscrum.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
+
+        public System.Data.Entity.DbSet<edu.mum.mumscrum.Models.Employee> Employees { get; set; }
+
+        public System.Data.Entity.DbSet<edu.mum.mumscrum.Models.Position> Positions { get; set; }
     }
 }

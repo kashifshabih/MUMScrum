@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace edu.mum.mumscrum.Controllers
 {
-    [Authorize(Roles = "ProductOwner")]
-    public class ProductOwnerController : Controller
+    [Authorize(Roles = "HRAdministrator")]
+    public class HRAdminController : Controller
     {
-        // GET: ProductOwner
+        // GET: HRAdmin
         public ActionResult Index()
         {
             return View();

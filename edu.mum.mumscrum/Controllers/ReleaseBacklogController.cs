@@ -12,6 +12,7 @@ using edu.mum.mumscrum.ViewModels;
 
 namespace edu.mum.mumscrum.Controllers
 {
+    [Authorize(Roles = "ProductOwner")]
     public class ReleaseBacklogController : Controller
     {
         private MUMScrumContext db = new MUMScrumContext();
@@ -48,12 +49,20 @@ namespace edu.mum.mumscrum.Controllers
 
             PopulateAssignedUserStories(releaseBacklog);
 
+            // hr interface method has to be given here
+            ViewBag.ScrumMasters = db.Employees.ToList()
+                                            .Where(e => e.Position.EmpPosition == "Senior Software Engineer" && e.Role == null)
+                                            .Select(
+                                                e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                            );
+
+
             return View();
         }
 
         private void PopulateAssignedUserStories(ReleaseBacklog releaseBacklog)
         {
-            var allUserStories = db.UserStories;
+            var allUserStories = db.UserStories.Where(u => u.ReleaseBacklogID == null || u.ReleaseBacklogID == releaseBacklog.ID);
 
             var releaseBacklogUserStories = new HashSet<int>(releaseBacklog.UserStories.Select(u => u.ID));
 
@@ -77,7 +86,7 @@ namespace edu.mum.mumscrum.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories)
+        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories, string ScrumMasterList)
         {
             if (selectedUserStories != null)
             {
@@ -95,6 +104,12 @@ namespace edu.mum.mumscrum.Controllers
 
             if (ModelState.IsValid)
             {
+                if (ScrumMasterList != "")
+                {
+                    releaseBacklog.ScrumMasterID = Convert.ToInt32(ScrumMasterList);
+                    //hr interface method has to be given here
+                }
+                
                 releaseBacklog.CreatedBy = 1;
                 releaseBacklog.CreatedDate = DateTime.Now;
 
@@ -117,6 +132,14 @@ namespace edu.mum.mumscrum.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // hr interface method has to be given here
+            ViewBag.ScrumMasters = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
+                                .Select(
+                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+
             
             //ReleaseBacklog releaseBacklog = db.ReleaseBacklogs.Find(id);
 
@@ -126,6 +149,7 @@ namespace edu.mum.mumscrum.Controllers
                 .Single();
 
             PopulateAssignedUserStories(releaseBacklog);
+
 
             if (releaseBacklog == null)
             {
