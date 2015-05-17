@@ -55,8 +55,6 @@ namespace edu.mum.mumscrum.Controllers
                                             .Select(
                                                 e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
                                             );
-
-
             return View();
         }
 
@@ -101,7 +99,6 @@ namespace edu.mum.mumscrum.Controllers
                     releaseBacklog.UserStories.Add(userStoryToAdd);
                 }
             }
-
             if (ModelState.IsValid)
             {
                 releaseBacklog.CreatedBy = 1;
@@ -115,14 +112,10 @@ namespace edu.mum.mumscrum.Controllers
                     ////hr interface method has to be given here
                     var emp = db.Employees.Find(int.Parse(ScrumMasterList));
                     emp.Role = Role.ScrumMaster;
-                    //emp.ReleaseBacklogs.Add(releaseBacklog);
+                    
                 }
-
                 
                 db.SaveChanges();
-
-                var emp1 = db.Employees.Find(int.Parse(ScrumMasterList));
-                var count = emp1.ReleaseBacklogs.Count;
 
                 return RedirectToAction("Index");
             }
@@ -148,17 +141,13 @@ namespace edu.mum.mumscrum.Controllers
                                 .Select(
                                     e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
                                 );
-
-            
             //ReleaseBacklog releaseBacklog = db.ReleaseBacklogs.Find(id);
-
             ReleaseBacklog releaseBacklog = db.ReleaseBacklogs
                 .Include(r => r.UserStories)
                 .Where(r => r.ID == id)
                 .Single();
 
             PopulateAssignedUserStories(releaseBacklog);
-
 
             if (releaseBacklog == null)
             {
@@ -176,7 +165,7 @@ namespace edu.mum.mumscrum.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories)
-        public ActionResult Edit(int? id, string[] selectedUserStories)
+        public ActionResult Edit(int? id, string[] selectedUserStories, string ScrumMasterList)
         {
             ReleaseBacklog releaseBacklog = db.ReleaseBacklogs
             .Include(r => r.UserStories)
@@ -188,6 +177,28 @@ namespace edu.mum.mumscrum.Controllers
                 UpdateReleaseBacklogUserStories(selectedUserStories, releaseBacklog);
 
                 db.Entry(releaseBacklog).State = EntityState.Modified;
+
+                if (ScrumMasterList != "")
+                {
+                    releaseBacklog.EmployeeID = int.Parse(ScrumMasterList);
+                    ////hr interface method has to be given here
+                    var emp = db.Employees.Find(int.Parse(ScrumMasterList));
+                    emp.Role = Role.ScrumMaster;
+                    
+                }
+                else
+                {
+                    var emp = db.Employees.Find(releaseBacklog.EmployeeID);
+                    if (emp.ReleaseBacklogs.Count == 1)
+                    {
+                        emp.Role = null;
+                    }
+                    
+
+                    releaseBacklog.EmployeeID = null;
+                    ////hr interface method has to be given here
+                }
+
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

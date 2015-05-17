@@ -36,7 +36,7 @@ namespace edu.mum.mumscrum.DAL
             {
                 new Employee{ FirstName="HR", LastName="Administrator", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=1, EmployeeStatus=EmployeeStatus.Active, UserName="admin", Password="admin",	Role=Role.HRAdministrator},
                 new Employee{ FirstName="Kashif", LastName="Shabih", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=2, EmployeeStatus=EmployeeStatus.Active, UserName="kashif", Password="shabih",	Role=Role.ProductOwner},
-                new Employee{ FirstName="Sherif", LastName="Ahmed", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=4, EmployeeStatus=EmployeeStatus.Active, UserName="sherif", Password="ahmed"},
+                new Employee{ FirstName="Sherif", LastName="Ahmed", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=4, EmployeeStatus=EmployeeStatus.Active, UserName="sherif", Password="ahmed", Role=Role.ScrumMaster},
                 new Employee{ FirstName="Developer", LastName="One", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=5, EmployeeStatus=EmployeeStatus.Active, UserName="developer1", Password="developer1"},
                 new Employee{ FirstName="Developer", LastName="Two", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=5, EmployeeStatus=EmployeeStatus.Active, UserName="developer2", Password="developer2"},
                 new Employee{ FirstName="Tester", LastName="One", Gender=Gender.Female, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=6, EmployeeStatus=EmployeeStatus.Active, UserName="tester", Password="tester"}
@@ -70,11 +70,14 @@ namespace edu.mum.mumscrum.DAL
 
             var releaseBacklogs = new List<ReleaseBacklog>
             {
-                new ReleaseBacklog{ Name = "Product Backlog 1", Description = "This is product backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now}  
+                new ReleaseBacklog{ Name ="Release Backlog 1", Description = "This is Release Backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now, ProductBacklogID = 1, EmployeeID = 3}  
             };
 
-            productBacklogs.ForEach(pb => context.ProductBacklogs.Add(pb));
+            releaseBacklogs.ForEach(rb => context.ReleaseBacklogs.Add(rb));
             context.SaveChanges();
+
+
+
 
 
             #region
