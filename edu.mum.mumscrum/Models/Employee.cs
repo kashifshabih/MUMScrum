@@ -34,5 +34,9 @@ namespace edu.mum.mumscrum.Models
         public Role? Role { get; set; }
 
         public virtual Position Position { get; set; }
+
+        public virtual ICollection<ReleaseBacklog> ReleaseBacklogs { get; set; }
+
+        public virtual ICollection<UserStory> UserStories { get; set; }
     }
 }

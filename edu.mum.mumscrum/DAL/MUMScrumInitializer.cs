@@ -19,6 +19,64 @@ namespace edu.mum.mumscrum.DAL
             //productBacklogs.ForEach(pb => context.ProductBacklogs.Add(pb));
             //context.SaveChanges();
 
+            var positions = new List<Position>
+            {
+                new Position{ EmpPosition = "HR Administrator"},
+                new Position{ EmpPosition = "Vice President Marketing"},
+                new Position{ EmpPosition = "Marketing Manager"},
+                new Position{ EmpPosition = "Senior Software Engineer"},
+                new Position{ EmpPosition = "Software Engineer"},
+                new Position{ EmpPosition = "Software Test Engineer"}
+            };
+
+            positions.ForEach(p => context.Positions.Add(p));
+            context.SaveChanges();
+
+            var employees = new List<Employee>
+            {
+                new Employee{ FirstName="HR", LastName="Administrator", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=1, EmployeeStatus=EmployeeStatus.Active, UserName="admin", Password="admin",	Role=Role.HRAdministrator},
+                new Employee{ FirstName="Kashif", LastName="Shabih", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=2, EmployeeStatus=EmployeeStatus.Active, UserName="kashif", Password="shabih",	Role=Role.ProductOwner},
+                new Employee{ FirstName="Sherif", LastName="Ahmed", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=4, EmployeeStatus=EmployeeStatus.Active, UserName="sherif", Password="ahmed"},
+                new Employee{ FirstName="Developer", LastName="One", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=5, EmployeeStatus=EmployeeStatus.Active, UserName="developer1", Password="developer1"},
+                new Employee{ FirstName="Developer", LastName="Two", Gender=Gender.Male, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=5, EmployeeStatus=EmployeeStatus.Active, UserName="developer2", Password="developer2"},
+                new Employee{ FirstName="Tester", LastName="One", Gender=Gender.Female, CreatedBy=1, CreatedDate=DateTime.Now, HiringDate=DateTime.Now, PositionID=6, EmployeeStatus=EmployeeStatus.Active, UserName="tester", Password="tester"}
+            };
+
+            employees.ForEach(e => context.Employees.Add(e));
+            context.SaveChanges();
+
+            var productBacklogs = new List<ProductBacklog>
+            {
+                new ProductBacklog{ Name = "Product Backlog 1", Description = "This is product backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now}  
+            };
+
+            productBacklogs.ForEach(pb => context.ProductBacklogs.Add(pb));
+            context.SaveChanges();
+
+            var userStories = new List<UserStory>
+            {
+                new UserStory{ Name="User Story 1", Description="This is user story 1", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },  
+                new UserStory{ Name="User Story 2", Description="This is user story 2", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 3", Description="This is user story 3", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 4", Description="This is user story 4", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 5", Description="This is user story 5", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 6", Description="This is user story 6", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 7", Description="This is user story 7", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 },
+                new UserStory{ Name="User Story 8", Description="This is user story 8", CreatedBy=1, CreatedDate=DateTime.Now, DevelopmentStatus=USDevelopmentStatus.New, TestStatus=USTestStatus.WaitingDevelopment, ProductBacklogID=1 }
+            };	
+
+            userStories.ForEach(us => context.UserStories.Add(us));
+            context.SaveChanges();
+
+            var releaseBacklogs = new List<ReleaseBacklog>
+            {
+                new ReleaseBacklog{ Name = "Product Backlog 1", Description = "This is product backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now}  
+            };
+
+            productBacklogs.ForEach(pb => context.ProductBacklogs.Add(pb));
+            context.SaveChanges();
+
+
             #region
             //11	Product Backlog 1	This is product back log 1	1	05/14/2015 2:14:21 PM	NULL	NULL	NULL
 

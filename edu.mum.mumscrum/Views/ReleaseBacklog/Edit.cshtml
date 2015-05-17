@@ -85,7 +85,7 @@
         @*<div class="form-group">
     @Html.LabelFor(model => model.ScrumMasterID, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">*@
-                @Html.HiddenFor(model => model.ScrumMasterID, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.HiddenFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })*@
                 @*@Html.ValidationMessageFor(model => model.ScrumMasterID, "", new { @class = "text-danger" })
             </div>
         </div>*@
@@ -123,7 +123,7 @@
             @Html.Label("Assign Scrum Master", htmlAttributes: new { @class = "control-label col-md-2" })
 
             <div class="col-md-10">
-                @Html.DropDownList("ScrumMasterList", new SelectList(ViewBag.ScrumMasters, "ID", "Name", Model.ScrumMasterID), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ScrumMasterList", new SelectList(ViewBag.ScrumMasters, "ID", "Name", Model.EmployeeID), htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 

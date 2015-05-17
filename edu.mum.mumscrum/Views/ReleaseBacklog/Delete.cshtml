@@ -77,11 +77,13 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ScrumMasterID)
+            @*@Html.DisplayNameFor(model => model.Employee.FirstName)*@
+            Scrum Master
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ScrumMasterID)
+            @Html.DisplayFor(model => model.Employee.FirstName)
+            @Html.DisplayFor(model => model.Employee.LastName)
         </dd>
 
     </dl>

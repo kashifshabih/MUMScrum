@@ -11,7 +11,7 @@ using edu.mum.mumscrum.Models;
 
 namespace edu.mum.mumscrum.Controllers
 {
-    [Authorize(Roles="HRAdministrator")]
+    [Authorize(Roles = "HRAdministrator")]
     public class EmployeeController : Controller
     {
         private MUMScrumContext db = new MUMScrumContext();

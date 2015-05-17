@@ -16,8 +16,9 @@ namespace edu.mum.mumscrum.Models
         public DateTime? ExpectedEndDate { get; set; }
         public DateTime? ActualEndDate { get; set; }
         public int ProductBacklogID { get; set; }
-        public int? ScrumMasterID { get; set; } //have to specify this as the foreign key // see whether these have to be formed into navigation properties
+        public int? EmployeeID { get; set; } //have to specify this as the foreign key // see whether these have to be formed into navigation properties
 
+        public virtual Employee Employee { get; set; }
         public virtual ProductBacklog ProductBacklog { get; set; }
         public virtual ICollection<Sprint> Sprints { get; set; }
         public virtual ICollection<UserStory> UserStories { get; set; }

@@ -51,7 +51,7 @@ namespace edu.mum.mumscrum.Controllers
 
             // hr interface method has to be given here
             ViewBag.ScrumMasters = db.Employees.ToList()
-                                            .Where(e => e.Position.EmpPosition == "Senior Software Engineer" && e.Role == null)
+                                            .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
                                             .Select(
                                                 e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
                                             );
@@ -86,7 +86,7 @@ namespace edu.mum.mumscrum.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,ScrumMasterID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories, string ScrumMasterList)
+        public ActionResult Create([Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,ProductBacklogID,EmployeeID")] ReleaseBacklog releaseBacklog, string[] selectedUserStories, string ScrumMasterList)
         {
             if (selectedUserStories != null)
             {
@@ -104,17 +104,26 @@ namespace edu.mum.mumscrum.Controllers
 
             if (ModelState.IsValid)
             {
-                if (ScrumMasterList != "")
-                {
-                    releaseBacklog.ScrumMasterID = Convert.ToInt32(ScrumMasterList);
-                    //hr interface method has to be given here
-                }
-                
                 releaseBacklog.CreatedBy = 1;
                 releaseBacklog.CreatedDate = DateTime.Now;
 
                 db.ReleaseBacklogs.Add(releaseBacklog);
+
+                if (ScrumMasterList != "")
+                {
+                    releaseBacklog.EmployeeID = int.Parse(ScrumMasterList);
+                    ////hr interface method has to be given here
+                    var emp = db.Employees.Find(int.Parse(ScrumMasterList));
+                    emp.Role = Role.ScrumMaster;
+                    //emp.ReleaseBacklogs.Add(releaseBacklog);
+                }
+
+                
                 db.SaveChanges();
+
+                var emp1 = db.Employees.Find(int.Parse(ScrumMasterList));
+                var count = emp1.ReleaseBacklogs.Count;
+
                 return RedirectToAction("Index");
             }
 
