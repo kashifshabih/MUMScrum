@@ -270,6 +270,7 @@ namespace edu.mum.mumscrum.Controllers
                 if (DeveloperList != "")
                 {
                     userStory.DeveloperID = int.Parse(DeveloperList);
+                    userStory.DevelopmentStatus = USDevelopmentStatus.Assigned;
                     ////hr interface method has to be given here
                     var emp = db.Employees.Find(int.Parse(DeveloperList));
                     emp.Role = Role.Developer;
@@ -289,15 +290,17 @@ namespace edu.mum.mumscrum.Controllers
                             }
 
                             emp.UserStories.Remove(userStory);
-
-                            userStory.DeveloperID = null;
-                            ////hr interface method has to be given here
                         }
                     }
+
+                    userStory.DevelopmentStatus = USDevelopmentStatus.New;
+                    userStory.DeveloperID = null;
+                    ////hr interface method has to be given here
                 }
                 if (TesterList != "")
                 {
                     userStory.TesterID = int.Parse(TesterList);
+                    userStory.TestStatus = USTestStatus.Assigned;
                     ////hr interface method has to be given here
                     var emp = db.Employees.Find(int.Parse(TesterList));
                     emp.Role = Role.Tester;
@@ -317,11 +320,13 @@ namespace edu.mum.mumscrum.Controllers
                             }
 
                             emp.UserStories.Remove(userStory);
-
-                            userStory.TesterID = null;
-                            ////hr interface method has to be given here
                         }
                     }
+
+                    userStory.TestStatus = USTestStatus.WaitingDevelopment;
+                    userStory.TesterID = null;
+                    ////hr interface method has to be given here
+
                 }
 
                 db.SaveChanges();
