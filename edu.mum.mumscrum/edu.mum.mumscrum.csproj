@@ -179,6 +179,7 @@
     <Compile Include="DAL\MUMScrumContext.cs" />
     <Compile Include="DAL\MUMScrumInitializer.cs" />
     <Compile Include="DAL\ProductBacklogRepository.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
