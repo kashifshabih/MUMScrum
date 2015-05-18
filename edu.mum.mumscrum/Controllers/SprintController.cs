@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using edu.mum.mumscrum.DAL;
 using edu.mum.mumscrum.Models;
 using edu.mum.mumscrum.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace edu.mum.mumscrum.Controllers
 {
@@ -219,6 +220,117 @@ namespace edu.mum.mumscrum.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult UserStories()
+        {
+            string loggedInUserName = User.Identity.GetUserName();
+
+            var userStories = db.UserStories.Include(u => u.ProductBacklog).Include(u => u.ReleaseBacklog).Include(u => u.Sprint)
+                                .Where(u => u.SprintID != null && u.Sprint.ReleaseBacklog.Employee.UserName == loggedInUserName);
+            return View(userStories.ToList());
+        }
+
+        public ActionResult AssignRoles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            UserStory userStory = db.UserStories.Find(id);
+            
+            if (userStory == null)
+            {
+                return HttpNotFound();
+            }
+            
+            // hr interface method has to be given here
+            ViewBag.Developers = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Software Engineer")
+                                .Select(
+                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+
+            ViewBag.Testers = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Software Test Engineer")
+                                .Select(
+                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+            
+            return View(userStory);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignRoles(string DeveloperList, string TesterList, [Bind(Include = "ID,Name,Description,CreatedBy,CreatedDate,StartDate,ExpectedEndDate,ActualEndDate,DevelopmentStatus,TestStatus,SprintID,ReleaseBacklogID,ProductBacklogID,DeveloperID,TesterID,DeveloperEstimateInHours,TesterEstimateInHours,DeveloperHoursCompleted,TesterHoursCompleted")] UserStory userStory, string DevID, string TesID)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(userStory).State = EntityState.Modified;
+
+                if (DeveloperList != "")
+                {
+                    userStory.DeveloperID = int.Parse(DeveloperList);
+                    ////hr interface method has to be given here
+                    var emp = db.Employees.Find(int.Parse(DeveloperList));
+                    emp.Role = Role.Developer;
+                    emp.UserStories.Add(userStory);
+                }
+                else
+                {
+                    if (DevID != "")
+                    {
+                        var emp = db.Employees.Find(int.Parse(DevID));
+
+                        if (emp != null)
+                        {
+                            if (emp.UserStories.Count == 1)
+                            {
+                                emp.Role = null;
+                            }
+
+                            emp.UserStories.Remove(userStory);
+
+                            userStory.DeveloperID = null;
+                            ////hr interface method has to be given here
+                        }
+                    }
+                }
+                if (TesterList != "")
+                {
+                    userStory.TesterID = int.Parse(TesterList);
+                    ////hr interface method has to be given here
+                    var emp = db.Employees.Find(int.Parse(TesterList));
+                    emp.Role = Role.Tester;
+                    emp.UserStories.Add(userStory);
+                }
+                else
+                {
+                    if (TesID != "")
+                    {
+                        var emp = db.Employees.Find(int.Parse(TesID));
+
+                        if (emp != null)
+                        {
+                            if (emp.UserStories.Count == 1)
+                            {
+                                emp.Role = null;
+                            }
+
+                            emp.UserStories.Remove(userStory);
+
+                            userStory.TesterID = null;
+                            ////hr interface method has to be given here
+                        }
+                    }
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("UserStories");
+            }
+
+            return View(userStory);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -227,5 +339,7 @@ namespace edu.mum.mumscrum.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

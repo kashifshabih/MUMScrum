@@ -70,15 +70,21 @@ namespace edu.mum.mumscrum.DAL
 
             var releaseBacklogs = new List<ReleaseBacklog>
             {
-                new ReleaseBacklog{ Name ="Release Backlog 1", Description = "This is Release Backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now, ProductBacklogID = 1, EmployeeID = 3}  
+                new ReleaseBacklog{ Name ="Release Backlog 1", Description = "This is Release Backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now, ProductBacklogID = 1, EmployeeID = 3},
+                new ReleaseBacklog{ Name ="Release Backlog 2", Description = "This is Release Backlog 2", CreatedBy = 1, CreatedDate = DateTime.Now, ProductBacklogID = 1, EmployeeID = 3}  
             };
 
             releaseBacklogs.ForEach(rb => context.ReleaseBacklogs.Add(rb));
             context.SaveChanges();
 
+            var sprints = new List<Sprint>
+            {
+                new Sprint{ Name ="Sprint 1", Description = "This is sprint 1 for release backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now, ReleaseBacklogID = 1},
+                new Sprint{ Name ="Sprint 2", Description = "This is sprint 2 for release backlog 1", CreatedBy = 1, CreatedDate = DateTime.Now, ReleaseBacklogID = 1}  
+            };
 
-
-
+            sprints.ForEach(s => context.Sprints.Add(s));
+            context.SaveChanges();
 
             #region
             //11	Product Backlog 1	This is product back log 1	1	05/14/2015 2:14:21 PM	NULL	NULL	NULL

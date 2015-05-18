@@ -189,11 +189,14 @@ namespace edu.mum.mumscrum.Controllers
                 else
                 {
                     var emp = db.Employees.Find(releaseBacklog.EmployeeID);
-                    if (emp.ReleaseBacklogs.Count == 1)
+
+                    if (emp != null)
                     {
-                        emp.Role = null;
+                        if (emp.ReleaseBacklogs.Count == 1)
+                        {
+                            emp.Role = null;
+                        }
                     }
-                    
 
                     releaseBacklog.EmployeeID = null;
                     ////hr interface method has to be given here

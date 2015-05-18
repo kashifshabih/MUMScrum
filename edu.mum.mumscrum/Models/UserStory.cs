@@ -42,5 +42,9 @@ namespace edu.mum.mumscrum.Models
         public virtual Sprint Sprint { get; set; }
         public virtual ReleaseBacklog ReleaseBacklog { get; set; }
         public virtual ProductBacklog ProductBacklog { get; set; }
+
+        public virtual Employee Developer { get; set; }
+
+        public virtual Employee Tester { get; set; }
     }
 }
