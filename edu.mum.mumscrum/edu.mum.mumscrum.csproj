@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ReleaseBacklogController.cs" />
     <Compile Include="Controllers\ScrumMasterController.cs" />
     <Compile Include="Controllers\SprintController.cs" />
+    <Compile Include="Controllers\TesterController.cs" />
     <Compile Include="Controllers\UserStoriesController.cs" />
     <Compile Include="DAL\IProductBacklogRepository.cs" />
     <Compile Include="DAL\MUMScrumContext.cs" />
@@ -299,6 +300,9 @@
     <Content Include="Views\Shared\_DeveloperLayoutPage.cshtml" />
     <Content Include="Views\Developer\Index.cshtml" />
     <Content Include="Views\Developer\EstimateEffort.cshtml" />
+    <Content Include="Views\Shared\_TesterLayoutPage.cshtml" />
+    <Content Include="Views\Tester\Index.cshtml" />
+    <Content Include="Views\Tester\EstimateEffort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

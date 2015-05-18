@@ -1,0 +1,60 @@
+﻿@model IEnumerable<edu.mum.mumscrum.Models.UserStory>
+
+@{
+    ViewBag.Title = "My User Stories";
+    Layout = "~/Views/Shared/_TesterLayoutPage.cshtml";
+}
+
+<h2>My User Stories</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            User Story
+        </th>
+        <th>
+            Sprint
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.TestStatus)
+            </th>
+        <th>
+            Est. Hrs.
+        </th>
+        <th>
+            compl. Hrs.
+        </th>
+        <th>
+            Rem. Hrs.
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sprint.Name)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.TestStatus)
+             </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.TesterEstimateInHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TesterHoursCompleted)
+            </td>
+            <td>
+                @((item.TesterEstimateInHours - item.TesterHoursCompleted).ToString())
+            </td>
+            <td>
+                @Html.ActionLink("Estimate Effort", "EstimateEffort", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

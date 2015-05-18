@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Estimate Effort";
-    Layout = "~/Views/Shared/_DeveloperLayoutPage.cshtml";
+    Layout = "~/Views/Shared/_TesterLayoutPage.cshtml";
 }
 
 <h2>Estimate Effort</h2>
@@ -59,46 +59,38 @@
         @Html.HiddenFor(model => model.ActualEndDate, new { htmlAttributes = new { @class = "form-control" } })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DevelopmentStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.DevelopmentStatus, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DevelopmentStatus, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.TestStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.TestStatus, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TestStatus, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.TestStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.TestStatus, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TestStatus, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
         @Html.HiddenFor(model => model.ReleaseBacklogID, htmlAttributes: new { @class = "form-control" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DeveloperEstimateInHours, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TesterEstimateInHours, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DeveloperEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DeveloperEstimateInHours, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TesterEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TesterEstimateInHours, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @*@Html.HiddenFor(model => model.DeveloperEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })*@
+        @*@Html.HiddenFor(model => model.TesterEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })*@
 
-        @Html.HiddenFor(model => model.TesterEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.DeveloperEstimateInHours, new { htmlAttributes = new { @class = "form-control" } })
 
-        @*@Html.HiddenFor(model => model.DeveloperHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })*@
+        @*@Html.HiddenFor(model => model.TesterHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DeveloperHoursCompleted, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TesterHoursCompleted, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DeveloperHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DeveloperHoursCompleted, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TesterHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TesterHoursCompleted, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.TesterHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.DeveloperHoursCompleted, new { htmlAttributes = new { @class = "form-control" } })
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
