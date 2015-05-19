@@ -192,5 +192,53 @@ namespace edu.mum.mumscrum.Controllers
                 db.Entry(employee).State = EntityState.Modified;
             }
         }
+        public void AssignDeveloper(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(employeeID);
+            employee.Role = Role.Developer;
+            employee.UserStories.Add(userStory);
+            
+            db.Entry(employee).State = EntityState.Modified;
+        }
+        public void AssignTester(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(employeeID);
+            employee.Role = Role.Tester;
+            employee.UserStories.Add(userStory);
+
+            db.Entry(employee).State = EntityState.Modified;
+        }
+        public void RemoveDeveloperRole(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(employeeID);
+
+            if (employee != null)
+            {
+                if (employee.UserStories.Count == 1)
+                {
+                    employee.Role = null;
+                }
+
+                employee.UserStories.Remove(userStory);
+
+                db.Entry(employee).State = EntityState.Modified;
+            }
+        }
+        public void RemoveTesterRole(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(employeeID);
+
+            if (employee != null)
+            {
+                if (employee.UserStories.Count == 1)
+                {
+                    employee.Role = null;
+                }
+
+                employee.UserStories.Remove(userStory);
+
+                db.Entry(employee).State = EntityState.Modified;
+            }
+        }
     }
 }

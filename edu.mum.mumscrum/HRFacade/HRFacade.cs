@@ -31,5 +31,21 @@ namespace edu.mum.mumscrum.HRFacade
         {
             objEmployee.RemoveScrumMasterRole(releaseBacklog, db);
         }
+        public void AssignDeveloper(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            objEmployee.AssignDeveloper(employeeID, userStory, db);
+        }
+        public void AssignTester(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            objEmployee.AssignTester(employeeID, userStory, db);
+        }
+        public void RemoveDeveloperRole(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            objEmployee.RemoveDeveloperRole(employeeID, userStory, db);
+        }
+        public void RemoveTesterRole(int employeeID, UserStory userStory, MUMScrumContext db)
+        {
+            objEmployee.RemoveTesterRole(employeeID, userStory, db);
+        }
     }
 }

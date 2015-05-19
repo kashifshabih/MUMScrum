@@ -126,7 +126,6 @@ namespace edu.mum.mumscrum.Controllers
                 return RedirectToAction("Index");
             }
 
-            //PopulateAssignedCourseData(instructor);
             PopulateAssignedUserStories(releaseBacklog);
 
             ViewBag.ProductBacklogID = new SelectList(db.ProductBacklogs, "ID", "Name", releaseBacklog.ProductBacklogID);

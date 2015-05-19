@@ -12,9 +12,11 @@ namespace edu.mum.mumscrum.HRFacade
         IEnumerable<PartialEmployee> GetScrumMasters();
         IEnumerable<PartialEmployee> GetDevelopers();
         IEnumerable<PartialEmployee> GetTesters();
-        void AssignScrumMaster(int emplyeeID, ReleaseBacklog releaseBacklog, MUMScrumContext db);
+        void AssignScrumMaster(int employeeID, ReleaseBacklog releaseBacklog, MUMScrumContext db);
         void RemoveScrumMasterRole(ReleaseBacklog releaseBacklog, MUMScrumContext db);
-        //void AssignScrumMaster();
-        //void AssignScrumMaster();
+        void AssignDeveloper(int employeeID, UserStory userStory, MUMScrumContext db);
+        void AssignTester(int employeeID, UserStory userStory, MUMScrumContext db);
+        void RemoveDeveloperRole(int employeeID, UserStory userStory, MUMScrumContext db);
+        void RemoveTesterRole(int employeeID, UserStory userStory, MUMScrumContext db);
     }
 }

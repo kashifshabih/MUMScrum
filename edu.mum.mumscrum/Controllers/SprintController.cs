@@ -271,32 +271,40 @@ namespace edu.mum.mumscrum.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 db.Entry(userStory).State = EntityState.Modified;
 
                 if (DeveloperList != "")
                 {
                     userStory.DeveloperID = int.Parse(DeveloperList);
                     userStory.DevelopmentStatus = USDevelopmentStatus.Assigned;
+                    
                     ////hr interface method has to be given here
-                    var emp = db.Employees.Find(int.Parse(DeveloperList));
-                    emp.Role = Role.Developer;
-                    emp.UserStories.Add(userStory);
+                    //var emp = db.Employees.Find(int.Parse(DeveloperList));
+                    //emp.Role = Role.Developer;
+                    //emp.UserStories.Add(userStory);
+
+                    HRInterface hr = new clsHRFacade();
+                    hr.AssignDeveloper(int.Parse(DeveloperList), userStory, db);
                 }
                 else
                 {
                     if (DevID != "")
                     {
-                        var emp = db.Employees.Find(int.Parse(DevID));
+                        //var emp = db.Employees.Find(int.Parse(DevID));
 
-                        if (emp != null)
-                        {
-                            if (emp.UserStories.Count == 1)
-                            {
-                                emp.Role = null;
-                            }
+                        //if (emp != null)
+                        //{
+                        //    if (emp.UserStories.Count == 1)
+                        //    {
+                        //        emp.Role = null;
+                        //    }
 
-                            emp.UserStories.Remove(userStory);
-                        }
+                        //    emp.UserStories.Remove(userStory);
+                        //}
+
+                        HRInterface hr = new clsHRFacade();
+                        hr.RemoveDeveloperRole(int.Parse(DevID), userStory, db);
                     }
 
                     userStory.DevelopmentStatus = USDevelopmentStatus.New;
@@ -308,33 +316,40 @@ namespace edu.mum.mumscrum.Controllers
                     userStory.TesterID = int.Parse(TesterList);
                     userStory.TestStatus = USTestStatus.Assigned;
                     ////hr interface method has to be given here
-                    var emp = db.Employees.Find(int.Parse(TesterList));
-                    emp.Role = Role.Tester;
-                    emp.UserStories.Add(userStory);
+                    //var emp = db.Employees.Find(int.Parse(TesterList));
+                    //emp.Role = Role.Tester;
+                    //emp.UserStories.Add(userStory);
+
+                    HRInterface hr = new clsHRFacade();
+                    hr.AssignTester(int.Parse(TesterList), userStory, db);
                 }
                 else
                 {
                     if (TesID != "")
                     {
-                        var emp = db.Employees.Find(int.Parse(TesID));
+                        //var emp = db.Employees.Find(int.Parse(TesID));
 
-                        if (emp != null)
-                        {
-                            if (emp.UserStories.Count == 1)
-                            {
-                                emp.Role = null;
-                            }
+                        //if (emp != null)
+                        //{
+                        //    if (emp.UserStories.Count == 1)
+                        //    {
+                        //        emp.Role = null;
+                        //    }
 
-                            emp.UserStories.Remove(userStory);
-                        }
+                        //    emp.UserStories.Remove(userStory);
+                        //}
+
+                        HRInterface hr = new clsHRFacade();
+                        hr.RemoveTesterRole(int.Parse(TesID), userStory, db);
                     }
 
                     userStory.TestStatus = USTestStatus.WaitingDevelopment;
                     userStory.TesterID = null;
                     ////hr interface method has to be given here
-
                 }
 
+
+                
                 db.SaveChanges();
                 return RedirectToAction("UserStories");
             }
