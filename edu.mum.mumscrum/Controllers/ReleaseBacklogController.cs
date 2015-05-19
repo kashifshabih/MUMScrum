@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using edu.mum.mumscrum.DAL;
 using edu.mum.mumscrum.Models;
 using edu.mum.mumscrum.ViewModels;
+using edu.mum.mumscrum.HRFacade;
 
 namespace edu.mum.mumscrum.Controllers
 {
@@ -50,11 +51,16 @@ namespace edu.mum.mumscrum.Controllers
             PopulateAssignedUserStories(releaseBacklog);
 
             // hr interface method has to be given here
-            ViewBag.ScrumMasters = db.Employees.ToList()
-                                            .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
-                                            .Select(
-                                                e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
-                                            );
+            //ViewBag.ScrumMasters = db.Employees.ToList()
+            //                                .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
+            //                                .Select(
+            //                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+            //                                );
+
+            HRInterface hr = new clsHRFacade();
+
+            ViewBag.ScrumMasters = hr.GetScrumMasters();
+
             return View();
         }
 

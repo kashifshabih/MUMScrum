@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using edu.mum.mumscrum.DAL;
 using edu.mum.mumscrum.Models;
+using edu.mum.mumscrum.HRFacade;
 
 namespace edu.mum.mumscrum.Controllers
 {
@@ -132,6 +133,17 @@ namespace edu.mum.mumscrum.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public IEnumerable<PartialEmployee> GetScrumMasters()
+        {
+            IEnumerable<PartialEmployee> scrumMastersList = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
+                                .Select(
+                                    e => new PartialEmployee { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+
+            return scrumMastersList;
         }
     }
 }
