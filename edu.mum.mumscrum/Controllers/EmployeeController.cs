@@ -145,5 +145,52 @@ namespace edu.mum.mumscrum.Controllers
 
             return scrumMastersList;
         }
+
+        public IEnumerable<PartialEmployee> GetDevelopers()
+        {
+            IEnumerable<PartialEmployee> DevelopersList = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Software Engineer")
+                                .Select(
+                                    e => new PartialEmployee { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+
+            return DevelopersList;
+        }
+
+        public IEnumerable<PartialEmployee> GetTesters()
+        {
+            IEnumerable<PartialEmployee> TestersList = db.Employees.ToList()
+                                .Where(e => e.Position.EmpPosition == "Software Test Engineer")
+                                .Select(
+                                    e => new PartialEmployee { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+                                );
+
+            return TestersList;
+        }
+
+        public void AssignScrumMaster(int employeeID, ReleaseBacklog releaseBacklog, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(employeeID);
+            employee.Role = Role.ScrumMaster;
+            employee.ReleaseBacklogs.Add(releaseBacklog);
+
+            db.Entry(employee).State = EntityState.Modified;
+        }
+
+        public void RemoveScrumMasterRole(ReleaseBacklog releaseBacklog, MUMScrumContext db)
+        {
+            var employee = db.Employees.Find(releaseBacklog.EmployeeID);
+
+            if (employee != null)
+            {
+                if (employee.ReleaseBacklogs.Count == 1)
+                {
+                    employee.Role = null;
+                }
+                employee.ReleaseBacklogs.Remove(releaseBacklog);
+
+                db.Entry(employee).State = EntityState.Modified;
+            }
+        }
     }
 }

@@ -56,9 +56,7 @@ namespace edu.mum.mumscrum.Controllers
             //                                .Select(
             //                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
             //                                );
-
-            HRInterface hr = new clsHRFacade();
-
+            HRInterface hr = new clsHRFacade();            
             ViewBag.ScrumMasters = hr.GetScrumMasters();
 
             return View();
@@ -94,33 +92,35 @@ namespace edu.mum.mumscrum.Controllers
         {
             if (selectedUserStories != null)
             {
-                //instructor.Courses = new List<Course>();
                 releaseBacklog.UserStories = new List<UserStory>();
-                //foreach (var course in selectedCourses)
+
                 foreach (var userStory in selectedUserStories)
                 {
-                    //var courseToAdd = db.Courses.Find(int.Parse(course));
                     var userStoryToAdd = db.UserStories.Find(int.Parse(userStory));
-                    //instructor.Courses.Add(courseToAdd);
                     releaseBacklog.UserStories.Add(userStoryToAdd);
                 }
             }
+
+            if (ScrumMasterList != "")
+            {
+                releaseBacklog.EmployeeID = int.Parse(ScrumMasterList);
+
+                ////hr interface method has to be given here
+                //var emp = db.Employees.Find(int.Parse(ScrumMasterList));
+                //emp.Role = Role.ScrumMaster;
+                //emp.ReleaseBacklogs.Add(releaseBacklog);
+
+                HRInterface hr = new clsHRFacade();
+                hr.AssignScrumMaster(int.Parse(ScrumMasterList), releaseBacklog, db);
+            }
+
+            releaseBacklog.CreatedBy = 1;
+            releaseBacklog.CreatedDate = DateTime.Now;
+            
             if (ModelState.IsValid)
             {
-                releaseBacklog.CreatedBy = 1;
-                releaseBacklog.CreatedDate = DateTime.Now;
-
                 db.ReleaseBacklogs.Add(releaseBacklog);
 
-                if (ScrumMasterList != "")
-                {
-                    releaseBacklog.EmployeeID = int.Parse(ScrumMasterList);
-                    ////hr interface method has to be given here
-                    var emp = db.Employees.Find(int.Parse(ScrumMasterList));
-                    emp.Role = Role.ScrumMaster;
-                    
-                }
-                
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -142,11 +142,16 @@ namespace edu.mum.mumscrum.Controllers
             }
 
             // hr interface method has to be given here
-            ViewBag.ScrumMasters = db.Employees.ToList()
-                                .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
-                                .Select(
-                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
-                                );
+            //ViewBag.ScrumMasters = db.Employees.ToList()
+            //                    .Where(e => e.Position.EmpPosition == "Senior Software Engineer")
+            //                    .Select(
+            //                        e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+            //                    );
+
+            HRInterface hr = new clsHRFacade();
+            ViewBag.ScrumMasters = hr.GetScrumMasters();
+         
+            
             //ReleaseBacklog releaseBacklog = db.ReleaseBacklogs.Find(id);
             ReleaseBacklog releaseBacklog = db.ReleaseBacklogs
                 .Include(r => r.UserStories)
@@ -182,32 +187,37 @@ namespace edu.mum.mumscrum.Controllers
             {
                 UpdateReleaseBacklogUserStories(selectedUserStories, releaseBacklog);
 
-                db.Entry(releaseBacklog).State = EntityState.Modified;
-
                 if (ScrumMasterList != "")
                 {
                     releaseBacklog.EmployeeID = int.Parse(ScrumMasterList);
                     ////hr interface method has to be given here
-                    var emp = db.Employees.Find(int.Parse(ScrumMasterList));
-                    emp.Role = Role.ScrumMaster;
-                    
+                    //var emp = db.Employees.Find(int.Parse(ScrumMasterList));
+                    //emp.Role = Role.ScrumMaster;
+                    //emp.ReleaseBacklogs.Add(releaseBacklog);
+                    HRInterface hr = new clsHRFacade();
+                    hr.AssignScrumMaster(int.Parse(ScrumMasterList), releaseBacklog, db);
                 }
                 else
                 {
-                    var emp = db.Employees.Find(releaseBacklog.EmployeeID);
+                    //var emp = db.Employees.Find(releaseBacklog.EmployeeID);
 
-                    if (emp != null)
-                    {
-                        if (emp.ReleaseBacklogs.Count == 1)
-                        {
-                            emp.Role = null;
-                        }
-                    }
+                    //if (emp != null)
+                    //{
+                    //    if (emp.ReleaseBacklogs.Count == 1)
+                    //    {
+                    //        emp.Role = null;
+                    //    }
+                    //    emp.ReleaseBacklogs.Remove(releaseBacklog);
+                    //}
+
+                    HRInterface hr = new clsHRFacade();
+                    hr.RemoveScrumMasterRole(releaseBacklog, db);
 
                     releaseBacklog.EmployeeID = null;
                     ////hr interface method has to be given here
                 }
 
+                db.Entry(releaseBacklog).State = EntityState.Modified;
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

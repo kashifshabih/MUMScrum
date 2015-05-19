@@ -10,6 +10,7 @@ using edu.mum.mumscrum.DAL;
 using edu.mum.mumscrum.Models;
 using edu.mum.mumscrum.ViewModels;
 using Microsoft.AspNet.Identity;
+using edu.mum.mumscrum.HRFacade;
 
 namespace edu.mum.mumscrum.Controllers
 {
@@ -244,17 +245,22 @@ namespace edu.mum.mumscrum.Controllers
             }
             
             // hr interface method has to be given here
-            ViewBag.Developers = db.Employees.ToList()
-                                .Where(e => e.Position.EmpPosition == "Software Engineer")
-                                .Select(
-                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
-                                );
+            //ViewBag.Developers = db.Employees.ToList()
+            //                    .Where(e => e.Position.EmpPosition == "Software Engineer")
+            //                    .Select(
+            //                        e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+            //                    );
 
-            ViewBag.Testers = db.Employees.ToList()
-                                .Where(e => e.Position.EmpPosition == "Software Test Engineer")
-                                .Select(
-                                    e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
-                                );
+            HRInterface hr = new clsHRFacade();
+            ViewBag.Developers = hr.GetDevelopers();
+
+            //ViewBag.Testers = db.Employees.ToList()
+            //                    .Where(e => e.Position.EmpPosition == "Software Test Engineer")
+            //                    .Select(
+            //                        e => new { ID = e.ID, Name = e.FirstName + ' ' + e.LastName }
+            //                    );
+
+            ViewBag.Testers = hr.GetTesters();
             
             return View(userStory);
         }
